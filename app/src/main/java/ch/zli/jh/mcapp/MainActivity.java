@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imageView4;
     private ImageView imageView5;
     private RequestQueue mQueue;
-    private Button goToProfile;
     private static final String CHANNEL_ID = "xyzChannel";
     private static final String CHANNEL_Name = "xyz Channel";
 
@@ -51,8 +51,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getSupportActionBar().hide();
 
-        goToProfile = findViewById(R.id.goToProfile);
+        Button goToProfile = findViewById(R.id.goToProfile);
         goToProfile.setOnClickListener(view -> {
             Intent goToProfileIntent = new Intent(this, ProfileActivity.class);
             startActivity(goToProfileIntent);
