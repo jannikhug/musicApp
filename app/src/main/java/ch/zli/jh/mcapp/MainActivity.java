@@ -3,6 +3,7 @@ package ch.zli.jh.mcapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -63,21 +64,21 @@ public class MainActivity extends AppCompatActivity {
 
                             if (i == 0){
                                 hotTrendTV.append(song + "\n " + artist);
-                                Picasso.get().load(imageUrl).resize(40, 40).
+                                Picasso.get().load(imageUrl).resize(25, 25).
                                         centerCrop().into(imageView1);                            }
                             if (i == 1){
                                 hotTrendTV2.append(song + "\n " + artist);
-                                Picasso.get().load(imageUrl).resize(40, 40).
+                                Picasso.get().load(imageUrl).resize(25, 25).
                                         centerCrop().into(imageView2);
                             }
                             if (i == 3){
                                 hotTrendTV3.append(song + "\n " + artist);
-                                Picasso.get().load(imageUrl).resize(40, 40).
+                                Picasso.get().load(imageUrl).resize(25, 25).
                                         centerCrop().into(imageView3);
                             }
                             if (i == 4){
                                 hotTrendTV4.append(song + "\n " + artist);
-                                Picasso.get().load(imageUrl).resize(40, 40).
+                                Picasso.get().load(imageUrl).resize(25, 25).
                                         centerCrop().into(imageView4);
                             }
                             if (i == 5){
@@ -92,4 +93,6 @@ public class MainActivity extends AppCompatActivity {
                 }, error -> error.printStackTrace());
         mQueue.add(request);
     }
+
+
 }
