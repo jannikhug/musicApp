@@ -1,8 +1,18 @@
 package ch.zli.jh.mcapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,11 +39,29 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imageView4;
     private ImageView imageView5;
     private RequestQueue mQueue;
+    private Button goToProfile;
+    private static final String CHANNEL_ID = "xyzChannel";
+    private static final String CHANNEL_Name = "xyz Channel";
+
+    private NotificationManager nManager;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        goToProfile = findViewById(R.id.goToProfile);
+        goToProfile.setOnClickListener(view -> {
+            Intent goToProfileIntent = new Intent(this, ProfileActivity.class);
+            startActivity(goToProfileIntent);
+            showNotification();
+        });
+
+        this.nManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_Name, NotificationManager.IMPORTANCE_HIGH);
+        nManager.createNotificationChannel(channel);
 
         hotTrendTV = findViewById(R.id.hotTrend);
         hotTrendTV2 = findViewById(R.id.hotTrend2);
@@ -48,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
         mQueue = Volley.newRequestQueue(this);
         loadHotTrend();
     }
+
+
 
     // ApiKey = 523532
     public void loadHotTrend(){
@@ -83,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                             if (i == 5){
                                 hotTrendTV5.append(song + "\n " + artist);
-                                Picasso.get().load(imageUrl).resize(40, 40).
+                                Picasso.get().load(imageUrl).resize(25, 25).
                                         centerCrop().into(imageView5);
                             }
                         }
@@ -94,5 +124,16 @@ public class MainActivity extends AppCompatActivity {
         mQueue.add(request);
     }
 
+    public void showNotification() {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.notification_fire)
+                .setContentTitle("Check out the News!!!")
+                .setContentText("Check out the new tweets and post from your favourite Artist.")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setAutoCancel(true);
+        nManager.notify(0, builder.build());
 
+
+
+    }
 }
