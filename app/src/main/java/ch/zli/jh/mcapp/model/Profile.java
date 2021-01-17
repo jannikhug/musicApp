@@ -1,6 +1,8 @@
 package ch.zli.jh.mcapp.model;
 
-public class Profile {
+import java.io.Serializable;
+
+public class Profile implements Serializable {
 
     private String fullName;
     private String username;
