@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.widget.Button;
 import android.widget.EditText;
@@ -57,7 +58,7 @@ public class CreateActivity extends AppCompatActivity implements Serializable {
                     goToProfileIntent.putExtra("MyProfile", profile);
                     startActivity(goToProfileIntent);
                 } else {
-                    Toast.makeText(getApplicationContext(),"Album or Artist not found. Check again.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Click three times or Album and/or Artist not found.", Toast.LENGTH_SHORT).show();
                 }
             });
     }
@@ -73,6 +74,7 @@ public class CreateActivity extends AppCompatActivity implements Serializable {
                             JSONObject artists = jsonArray.getJSONObject(i);
                             String artistJson = artists.getString("strArtist");
                             System.out.println(artistJson);
+
                             foundArtist = true;
                         }
                     } catch (JSONException e) {
@@ -82,7 +84,6 @@ public class CreateActivity extends AppCompatActivity implements Serializable {
                     }
                 }, error -> error.printStackTrace());
         mQueue.add(request);
-
         return foundArtist;
     }
 
@@ -104,7 +105,6 @@ public class CreateActivity extends AppCompatActivity implements Serializable {
                     }
                 }, error -> error.printStackTrace());
         mQueue.add(request);
-
         return foundAlbum;
     }
 }

@@ -2,6 +2,7 @@ package ch.zli.jh.mcapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
@@ -9,8 +10,10 @@ import android.widget.Button;
 
 import java.io.Serializable;
 
+import ch.zli.jh.mcapp.model.Profile;
+
 public class ProfileActivity extends AppCompatActivity implements Serializable {
-    private boolean showData = false;
+    private boolean showData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,20 +29,21 @@ public class ProfileActivity extends AppCompatActivity implements Serializable {
         });
 
 
-        if (showData = false){
-            showButton();
+        Intent i = getIntent();
+        Profile profile = (Profile) i.getSerializableExtra("MyProfile");
+        if (profile == null){
+            goToCreate.setText("Create Profile");
         } else {
-            showData();
+            goToCreate.setText("Edit Profile");
+            showData(profile);
         }
     }
 
-    public void showButton() {
-
-
-    }
-
-    public void showData() {
-
+    public void showData(Profile profile) {
+        System.out.println(profile.getFullName());
+        System.out.println(profile.getUsername());
+        System.out.println(profile.getFavArtist());
+        System.out.println(profile.getFavAlbum());
     }
 
     public void setShowData(boolean showData) {
