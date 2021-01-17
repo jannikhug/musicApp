@@ -1,0 +1,104 @@
+package ch.zli.jh.mcapp;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.Serializable;
+
+public class CreateActivity extends AppCompatActivity implements Serializable{
+
+    private EditText fullName;
+    private EditText username;
+    private EditText favArtist;
+    private EditText favAlbum;
+    private RequestQueue mQueue;
+    private boolean foundArtist;
+    private boolean foundAlbum;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_create);
+        getSupportActionBar().hide();
+
+        fullName = findViewById(R.id.etFullName);
+        username = findViewById(R.id.etUsername);
+        favArtist = findViewById(R.id.etFavArtist);
+        favAlbum = findViewById(R.id.etFavAlbum);
+        mQueue = Volley.newRequestQueue(this);
+
+
+        if (checkArtist(favArtist.getText().toString()) && ) {
+            Button goToProfile = findViewById(R.id.createProfile);
+            goToProfile.setOnClickListener(view -> {
+                /*Intent goToProfileIntent = new Intent(this, ProfileActivity.class);
+                startActivity(goToProfileIntent);*/
+                System.out.println(fullName.getText().toString());
+            });
+        } else {
+            System.out.println("UPS");
+        }
+    }
+
+
+    private boolean checkArtist(String artist){
+        String url = "https://theaudiodb.com/api/v1/json/1/search.php?s="+artist;
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                response -> {
+                    try {
+                        JSONArray jsonArray = response.getJSONArray("artists");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject artists = jsonArray.getJSONObject(i);
+                            String artistJson = artists.getString("strArtist");
+                            System.out.println();
+                            foundArtist = true;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        foundArtist = false;
+                    }
+                }, error -> error.printStackTrace());
+        mQueue.add(request);
+
+        return foundArtist;
+    }
+
+    private boolean checkAlbum(String album){
+        String url = "https://theaudiodb.com/api/v1/json/1/search.php?s="+artist;
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                response -> {
+                    try {
+                        JSONArray jsonArray = response.getJSONArray("artists");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject artists = jsonArray.getJSONObject(i);
+                            String artistJson = artists.getString("strArtist");
+                            System.out.println();
+                            foundArtist = true;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        foundArtist = false;
+                    }
+                }, error -> error.printStackTrace());
+        mQueue.add(request);
+
+        return foundArtist;
+    }
+
+
+}
